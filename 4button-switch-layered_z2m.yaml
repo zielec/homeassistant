@@ -109,8 +109,11 @@ trigger:
 
 action:
   - variables:
+      # Musimy przypisać wejście do zmiennej lokalnej przed użyciem w template
+      layer_select_entity: !input layer_select
       action_value: "{{ trigger.to_state.state }}"
-      current_layer: "{{ states(layer_select) }}"
+      # Teraz używamy zmiennej lokalnej do pobrania stanu
+      current_layer: "{{ states(layer_select_entity) }}"
 
   - choose:
       # --- LOGIKA ZMIANY WARSTW (HOLD 1-4) ---
@@ -198,3 +201,4 @@ action:
                 sequence: !input b4_l3
               - conditions: "{{ current_layer == 'Layer 4' }}"
                 sequence: !input b4_l4
+ 
