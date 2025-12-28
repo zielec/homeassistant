@@ -1,86 +1,101 @@
 blueprint:
-  name: Tuya TS0044 (Zigbee2MQTT) - 4 Buttons 4 Layers
-  description: "Wielowarstwowa obsługa pilota TS0044 przez Zigbee2MQTT. 
-    Przytrzymanie przycisku 4 zmienia warstwy. 
-    Wymaga pomocnika input_select.pilot_layers"
+  name: Tuya TS0044 (Z2M) - 4 Buttons 4 Layers (Hold to Switch)
+  description: "Obsługa 4 warstw. Długie przytrzymanie przycisku (1-4) przełącza na odpowiadającą mu warstwę (1-4). Krótkie kliknięcia wykonują akcje."
   domain: automation
   input:
     remote:
       name: Remote Sensor
-      description: Wybierz sensor 'action' Twojego pilota (np. sensor.0x..._action)
+      description: Wybierz sensor 'action' lub encję główną pilota
       selector:
-        entity:
-          domain: sensor
-          multiple: false
+        entity: {}
     layer_select:
       name: Pomocnik Warstw
-      description: Wybierz utworzony input_select do zarządzania warstwami
+      description: Input_select z opcjami "Layer 1", "Layer 2", "Layer 3", "Layer 4"
       selector:
         entity:
           domain: input_select
-          
-    # PRZYCISK 1
+
+    # Sekcje wejściowe dla przycisków (1-4) i warstw (1-4)
     b1_l1:
-      name: "P1: Warstwa 1"
+      name: "P1 Warstwa 1"
       default: []
       selector:
         action: {}
     b1_l2:
-      name: "P1: Warstwa 2"
+      name: "P1 Warstwa 2"
       default: []
       selector:
         action: {}
     b1_l3:
-      name: "P1: Warstwa 3"
+      name: "P1 Warstwa 3"
       default: []
       selector:
         action: {}
     b1_l4:
-      name: "P1: Warstwa 4"
+      name: "P1 Warstwa 4"
       default: []
       selector:
         action: {}
 
-    # PRZYCISK 2
     b2_l1:
-      name: "P2: Warstwa 1"
+      name: "P2 Warstwa 1"
       default: []
       selector:
         action: {}
     b2_l2:
-      name: "P2: Warstwa 2"
+      name: "P2 Warstwa 2"
       default: []
       selector:
         action: {}
     b2_l3:
-      name: "P2: Warstwa 3"
+      name: "P2 Warstwa 3"
       default: []
       selector:
         action: {}
     b2_l4:
-      name: "P2: Warstwa 4"
+      name: "P2 Warstwa 4"
       default: []
       selector:
         action: {}
 
-    # PRZYCISK 3
     b3_l1:
-      name: "P3: Warstwa 1"
+      name: "P3 Warstwa 1"
       default: []
       selector:
         action: {}
     b3_l2:
-      name: "P3: Warstwa 2"
+      name: "P3 Warstwa 2"
       default: []
       selector:
         action: {}
     b3_l3:
-      name: "P3: Warstwa 3"
+      name: "P3 Warstwa 3"
       default: []
       selector:
         action: {}
     b3_l4:
-      name: "P3: Warstwa 4"
+      name: "P3 Warstwa 4"
+      default: []
+      selector:
+        action: {}
+
+    b4_l1:
+      name: "P4 Warstwa 1"
+      default: []
+      selector:
+        action: {}
+    b4_l2:
+      name: "P4 Warstwa 2"
+      default: []
+      selector:
+        action: {}
+    b4_l3:
+      name: "P4 Warstwa 3"
+      default: []
+      selector:
+        action: {}
+    b4_l4:
+      name: "P4 Warstwa 4"
       default: []
       selector:
         action: {}
@@ -98,14 +113,41 @@ action:
       current_layer: "{{ states(layer_select) }}"
 
   - choose:
-      # --- LOGIKA ZMIANY WARSTW (HOLD BUTTON 4) ---
-      - conditions: "{{ action_value == '4_hold' }}"
+      # --- LOGIKA ZMIANY WARSTW (HOLD 1-4) ---
+      - conditions: "{{ action_value == '1_hold' }}"
         sequence:
-          - service: input_select.select_next
+          - service: input_select.select_option
             target:
               entity_id: !input layer_select
+            data:
+              option: "Layer 1"
+      
+      - conditions: "{{ action_value == '2_hold' }}"
+        sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: !input layer_select
+            data:
+              option: "Layer 2"
 
-      # --- PRZYCISK 1 ---
+      - conditions: "{{ action_value == '3_hold' }}"
+        sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: !input layer_select
+            data:
+              option: "Layer 3"
+
+      - conditions: "{{ action_value == '4_hold' }}"
+        sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: !input layer_select
+            data:
+              option: "Layer 4"
+
+      # --- AKCJE DLA PRZYCISKÓW (SINGLE CLICK) ---
+      # Przycisk 1
       - conditions: "{{ action_value == '1_single' }}"
         sequence:
           - choose:
@@ -118,7 +160,7 @@ action:
               - conditions: "{{ current_layer == 'Layer 4' }}"
                 sequence: !input b1_l4
 
-      # --- PRZYCISK 2 ---
+      # Przycisk 2
       - conditions: "{{ action_value == '2_single' }}"
         sequence:
           - choose:
@@ -131,7 +173,7 @@ action:
               - conditions: "{{ current_layer == 'Layer 4' }}"
                 sequence: !input b2_l4
 
-      # --- PRZYCISK 3 ---
+      # Przycisk 3
       - conditions: "{{ action_value == '3_single' }}"
         sequence:
           - choose:
@@ -143,3 +185,16 @@ action:
                 sequence: !input b3_l3
               - conditions: "{{ current_layer == 'Layer 4' }}"
                 sequence: !input b3_l4
+
+      # Przycisk 4
+      - conditions: "{{ action_value == '4_single' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ current_layer == 'Layer 1' }}"
+                sequence: !input b4_l1
+              - conditions: "{{ current_layer == 'Layer 2' }}"
+                sequence: !input b4_l2
+              - conditions: "{{ current_layer == 'Layer 3' }}"
+                sequence: !input b4_l3
+              - conditions: "{{ current_layer == 'Layer 4' }}"
+                sequence: !input b4_l4
