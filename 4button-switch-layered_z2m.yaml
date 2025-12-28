@@ -1,104 +1,60 @@
 blueprint:
-  name: Tuya TS0044 (Z2M) - 4 Buttons 4 Layers (Hold to Switch)
-  description: "Obsługa 4 warstw. Długie przytrzymanie przycisku (1-4) przełącza na odpowiadającą mu warstwę (1-4). Krótkie kliknięcia wykonują akcje."
+  name: Tuya TS0044 (Z2M) - 4 Buttons (Single/Double) 4 Layers (Hold)
+  description: "Pełna obsługa: Single (akcja), Double (akcja), Hold (zmiana warstwy na 1-4)."
   domain: automation
   input:
     remote:
       name: Remote Sensor
-      description: Wybierz sensor 'action' lub encję główną pilota
+      description: Wybierz sensor 'action' Twojego pilota
       selector:
         entity: {}
     layer_select:
       name: Pomocnik Warstw
-      description: Input_select z opcjami "Layer 1", "Layer 2", "Layer 3", "Layer 4"
+      description: 'Przygotuj Input_select ("Layer 1", "Layer 2", "Layer 3", "Layer 4")'
       selector:
         entity:
           domain: input_select
 
-    # Sekcje wejściowe dla przycisków (1-4) i warstw (1-4)
-    b1_l1:
-      name: "P1 Warstwa 1"
-      default: []
-      selector:
-        action: {}
-    b1_l2:
-      name: "P1 Warstwa 2"
-      default: []
-      selector:
-        action: {}
-    b1_l3:
-      name: "P1 Warstwa 3"
-      default: []
-      selector:
-        action: {}
-    b1_l4:
-      name: "P1 Warstwa 4"
-      default: []
-      selector:
-        action: {}
+    # --- KONFIGURACJA PRZYCISKÓW ---
+    # Przycisk 1
+    b1_s_l1: { name: "P1 Single: Warstwa 1", default: [], selector: { action: {} } }
+    b1_d_l1: { name: "P1 Double: Warstwa 1", default: [], selector: { action: {} } }
+    b1_s_l2: { name: "P1 Single: Warstwa 2", default: [], selector: { action: {} } }
+    b1_d_l2: { name: "P1 Double: Warstwa 2", default: [], selector: { action: {} } }
+    b1_s_l3: { name: "P1 Single: Warstwa 3", default: [], selector: { action: {} } }
+    b1_d_l3: { name: "P1 Double: Warstwa 3", default: [], selector: { action: {} } }
+    b1_s_l4: { name: "P1 Single: Warstwa 4", default: [], selector: { action: {} } }
+    b1_d_l4: { name: "P1 Double: Warstwa 4", default: [], selector: { action: {} } }
 
-    b2_l1:
-      name: "P2 Warstwa 1"
-      default: []
-      selector:
-        action: {}
-    b2_l2:
-      name: "P2 Warstwa 2"
-      default: []
-      selector:
-        action: {}
-    b2_l3:
-      name: "P2 Warstwa 3"
-      default: []
-      selector:
-        action: {}
-    b2_l4:
-      name: "P2 Warstwa 4"
-      default: []
-      selector:
-        action: {}
+    # Przycisk 2
+    b2_s_l1: { name: "P2 Single: Warstwa 1", default: [], selector: { action: {} } }
+    b2_d_l1: { name: "P2 Double: Warstwa 1", default: [], selector: { action: {} } }
+    b2_s_l2: { name: "P2 Single: Warstwa 2", default: [], selector: { action: {} } }
+    b2_d_l2: { name: "P2 Double: Warstwa 2", default: [], selector: { action: {} } }
+    b2_s_l3: { name: "P2 Single: Warstwa 3", default: [], selector: { action: {} } }
+    b2_d_l3: { name: "P2 Double: Warstwa 3", default: [], selector: { action: {} } }
+    b2_s_l4: { name: "P2 Single: Warstwa 4", default: [], selector: { action: {} } }
+    b2_d_l4: { name: "P2 Double: Warstwa 4", default: [], selector: { action: {} } }
 
-    b3_l1:
-      name: "P3 Warstwa 1"
-      default: []
-      selector:
-        action: {}
-    b3_l2:
-      name: "P3 Warstwa 2"
-      default: []
-      selector:
-        action: {}
-    b3_l3:
-      name: "P3 Warstwa 3"
-      default: []
-      selector:
-        action: {}
-    b3_l4:
-      name: "P3 Warstwa 4"
-      default: []
-      selector:
-        action: {}
+    # Przycisk 3
+    b3_s_l1: { name: "P3 Single: Warstwa 1", default: [], selector: { action: {} } }
+    b3_d_l1: { name: "P3 Double: Warstwa 1", default: [], selector: { action: {} } }
+    b3_s_l2: { name: "P3 Single: Warstwa 2", default: [], selector: { action: {} } }
+    b3_d_l2: { name: "P3 Double: Warstwa 2", default: [], selector: { action: {} } }
+    b3_s_l3: { name: "P3 Single: Warstwa 3", default: [], selector: { action: {} } }
+    b3_d_l3: { name: "P3 Double: Warstwa 3", default: [], selector: { action: {} } }
+    b3_s_l4: { name: "P3 Single: Warstwa 4", default: [], selector: { action: {} } }
+    b3_d_l4: { name: "P3 Double: Warstwa 4", default: [], selector: { action: {} } }
 
-    b4_l1:
-      name: "P4 Warstwa 1"
-      default: []
-      selector:
-        action: {}
-    b4_l2:
-      name: "P4 Warstwa 2"
-      default: []
-      selector:
-        action: {}
-    b4_l3:
-      name: "P4 Warstwa 3"
-      default: []
-      selector:
-        action: {}
-    b4_l4:
-      name: "P4 Warstwa 4"
-      default: []
-      selector:
-        action: {}
+    # Przycisk 4
+    b4_s_l1: { name: "P4 Single: Warstwa 1", default: [], selector: { action: {} } }
+    b4_d_l1: { name: "P4 Double: Warstwa 1", default: [], selector: { action: {} } }
+    b4_s_l2: { name: "P4 Single: Warstwa 2", default: [], selector: { action: {} } }
+    b4_d_l2: { name: "P4 Double: Warstwa 2", default: [], selector: { action: {} } }
+    b4_s_l3: { name: "P4 Single: Warstwa 3", default: [], selector: { action: {} } }
+    b4_d_l3: { name: "P4 Double: Warstwa 3", default: [], selector: { action: {} } }
+    b4_s_l4: { name: "P4 Single: Warstwa 4", default: [], selector: { action: {} } }
+    b4_d_l4: { name: "P4 Double: Warstwa 4", default: [], selector: { action: {} } }
 
 mode: restart
 max_exceeded: silent
@@ -109,96 +65,113 @@ trigger:
 
 action:
   - variables:
-      # Musimy przypisać wejście do zmiennej lokalnej przed użyciem w template
-      layer_select_entity: !input layer_select
-      action_value: "{{ trigger.to_state.state }}"
-      # Teraz używamy zmiennej lokalnej do pobrania stanu
-      current_layer: "{{ states(layer_select_entity) }}"
+      action_val: "{{ trigger.to_state.state }}"
+      l_ent: !input layer_select
+      curr_l: "{{ states(l_ent) }}"
 
   - choose:
-      # --- LOGIKA ZMIANY WARSTW (HOLD 1-4) ---
-      - conditions: "{{ action_value == '1_hold' }}"
-        sequence:
-          - service: input_select.select_option
-            target:
-              entity_id: !input layer_select
-            data:
-              option: "Layer 1"
-      
-      - conditions: "{{ action_value == '2_hold' }}"
-        sequence:
-          - service: input_select.select_option
-            target:
-              entity_id: !input layer_select
-            data:
-              option: "Layer 2"
+      # --- PRZEŁĄCZANIE WARSTW (HOLD) ---
+      - conditions: "{{ action_val == '1_hold' }}"
+        sequence: [{service: input_select.select_option, target: {entity_id: !input layer_select}, data: {option: "Layer 1"}}]
+      - conditions: "{{ action_val == '2_hold' }}"
+        sequence: [{service: input_select.select_option, target: {entity_id: !input layer_select}, data: {option: "Layer 2"}}]
+      - conditions: "{{ action_val == '3_hold' }}"
+        sequence: [{service: input_select.select_option, target: {entity_id: !input layer_select}, data: {option: "Layer 3"}}]
+      - conditions: "{{ action_val == '4_hold' }}"
+        sequence: [{service: input_select.select_option, target: {entity_id: !input layer_select}, data: {option: "Layer 4"}}]
 
-      - conditions: "{{ action_value == '3_hold' }}"
-        sequence:
-          - service: input_select.select_option
-            target:
-              entity_id: !input layer_select
-            data:
-              option: "Layer 3"
-
-      - conditions: "{{ action_value == '4_hold' }}"
-        sequence:
-          - service: input_select.select_option
-            target:
-              entity_id: !input layer_select
-            data:
-              option: "Layer 4"
-
-      # --- AKCJE DLA PRZYCISKÓW (SINGLE CLICK) ---
-      # Przycisk 1
-      - conditions: "{{ action_value == '1_single' }}"
+      # --- AKCJE PRZYCISK 1 ---
+      - conditions: "{{ action_val == '1_single' }}"
         sequence:
           - choose:
-              - conditions: "{{ current_layer == 'Layer 1' }}"
-                sequence: !input b1_l1
-              - conditions: "{{ current_layer == 'Layer 2' }}"
-                sequence: !input b1_l2
-              - conditions: "{{ current_layer == 'Layer 3' }}"
-                sequence: !input b1_l3
-              - conditions: "{{ current_layer == 'Layer 4' }}"
-                sequence: !input b1_l4
-
-      # Przycisk 2
-      - conditions: "{{ action_value == '2_single' }}"
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b1_s_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b1_s_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b1_s_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b1_s_l4
+      - conditions: "{{ action_val == '1_double' }}"
         sequence:
           - choose:
-              - conditions: "{{ current_layer == 'Layer 1' }}"
-                sequence: !input b2_l1
-              - conditions: "{{ current_layer == 'Layer 2' }}"
-                sequence: !input b2_l2
-              - conditions: "{{ current_layer == 'Layer 3' }}"
-                sequence: !input b2_l3
-              - conditions: "{{ current_layer == 'Layer 4' }}"
-                sequence: !input b2_l4
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b1_d_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b1_d_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b1_d_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b1_d_l4
 
-      # Przycisk 3
-      - conditions: "{{ action_value == '3_single' }}"
+      # --- AKCJE PRZYCISK 2 ---
+      - conditions: "{{ action_val == '2_single' }}"
         sequence:
           - choose:
-              - conditions: "{{ current_layer == 'Layer 1' }}"
-                sequence: !input b3_l1
-              - conditions: "{{ current_layer == 'Layer 2' }}"
-                sequence: !input b3_l2
-              - conditions: "{{ current_layer == 'Layer 3' }}"
-                sequence: !input b3_l3
-              - conditions: "{{ current_layer == 'Layer 4' }}"
-                sequence: !input b3_l4
-
-      # Przycisk 4
-      - conditions: "{{ action_value == '4_single' }}"
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b2_s_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b2_s_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b2_s_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b2_s_l4
+      - conditions: "{{ action_val == '2_double' }}"
         sequence:
           - choose:
-              - conditions: "{{ current_layer == 'Layer 1' }}"
-                sequence: !input b4_l1
-              - conditions: "{{ current_layer == 'Layer 2' }}"
-                sequence: !input b4_l2
-              - conditions: "{{ current_layer == 'Layer 3' }}"
-                sequence: !input b4_l3
-              - conditions: "{{ current_layer == 'Layer 4' }}"
-                sequence: !input b4_l4
- 
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b2_d_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b2_d_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b2_d_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b2_d_l4
+
+      # --- AKCJE PRZYCISK 3 ---
+      - conditions: "{{ action_val == '3_single' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b3_s_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b3_s_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b3_s_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b3_s_l4
+      - conditions: "{{ action_val == '3_double' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b3_d_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b3_d_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b3_d_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b3_d_l4
+
+      # --- AKCJE PRZYCISK 4 ---
+      - conditions: "{{ action_val == '4_single' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b4_s_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b4_s_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b4_s_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b4_s_l4
+      - conditions: "{{ action_val == '4_double' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ curr_l == 'Layer 1' }}"
+                sequence: !input b4_d_l1
+              - conditions: "{{ curr_l == 'Layer 2' }}"
+                sequence: !input b4_d_l2
+              - conditions: "{{ curr_l == 'Layer 3' }}"
+                sequence: !input b4_d_l3
+              - conditions: "{{ curr_l == 'Layer 4' }}"
+                sequence: !input b4_d_l4
