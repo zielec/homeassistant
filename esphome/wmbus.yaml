@@ -1,0 +1,229 @@
+#https://github.com/MariuszWoszczynski/WMBUS-reader/blob/main/WMBUS-reader.yaml
+
+#dashboard_import:
+#  package_import_url: github://MariuszWoszczynski/WMBUS-reader/WMBUS-reader.yaml@main
+#  import_full_config: true
+
+substitutions:
+  name: "wmbus-reader"
+  friendly_name: "wmbus-reader"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  project:
+    name: esphome.wmbus_reader
+    version: "1.0"
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+# Enable Home Assistant API
+api:
+  encryption:
+     key: "8xldWpTh3eCmq/gnj38RWdSTD1yrr4tSIZn1I29pHQI="
+
+ota:
+  - platform: esphome
+    password: "96b45645daeab0673a19c1dd2871f63f"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Wmbus Fallback Hotspot"
+    password: "0xqWKs9UNiuU"
+
+captive_portal:
+    
+external_components:
+  - source: github://SzczepanLeon/esphome-components@main
+    refresh: 0s
+    components: [wmbus]
+
+# Status LED for connection
+status_led:
+  pin:
+    # Blue LED
+    number: GPIO02
+
+mdns:
+  disabled: false
+
+# Enable logging
+logger:
+  level: debug
+
+web_server:
+  port: 80
+  version: 3
+
+time:
+  - platform: sntp
+    id: time_sntp
+    timezone: Europe/Warsaw
+    servers:
+      - pl.pool.ntp.org
+    on_time_sync:
+      then:
+        - logger.log:
+            tag: "system"
+            level: INFO
+            format: "Synchronized sntp clock"
+
+wmbus:
+  mosi_pin: GPIO32
+  clk_pin:  GPIO33 
+  miso_pin: GPIO19
+  gdo2_pin: GPIO21
+  gdo0_pin: GPIO22
+  cs_pin:   GPIO23
+
+  led_pin: GPIO0
+  led_blink_time: "1s"
+
+  frequency: 868.950
+  all_drivers: False
+  sync_mode: False
+  log_all: False
+
+sensor:
+  - platform: wmbus
+    meter_id: 0x00794335
+    type: apator162
+    key: "00000000000000000000000000000000"
+    sensors:
+      - name: "water lazienka CW RSSI"
+        field: "rssi"
+        accuracy_decimals: 0
+        unit_of_measurement: "dBm"
+        device_class: "signal_strength"
+        state_class: "measurement"
+        entity_category: "diagnostic"
+      - name: "water lazienka CW"
+        field: "total"
+        accuracy_decimals: 3
+        unit_of_measurement: "m³"
+        device_class: "water"
+        state_class: "total_increasing"
+        icon: "mdi:water"
+  - platform: wmbus
+    meter_id: 0x00733418
+    type: apator162
+    key: "00000000000000000000000000000000"
+    sensors:
+      - name: "water lazienka ZW RSSI"
+        field: "rssi"
+        accuracy_decimals: 0
+        unit_of_measurement: "dBm"
+        device_class: "signal_strength"
+        state_class: "measurement"
+        entity_category: "diagnostic"
+      - name: "water lazienka ZW"
+        field: "total"
+        accuracy_decimals: 3
+        unit_of_measurement: "m³"
+        device_class: "water"
+        state_class: "total_increasing"
+        icon: "mdi:water"
+  - platform: wmbus
+    meter_id: 0x00098201
+    type: apator162
+    key: "00000000000000000000000000000000"
+    sensors:
+      - name: "water kuchnia CW RSSI"
+        field: "rssi"
+        accuracy_decimals: 0
+        unit_of_measurement: "dBm"
+        device_class: "signal_strength"
+        state_class: "measurement"
+        entity_category: "diagnostic"
+      - name: "water kuchnia CW"
+        field: "total"
+        accuracy_decimals: 3
+        unit_of_measurement: "m³"
+        device_class: "water"
+        state_class: "total_increasing"
+        icon: "mdi:water"
+  - platform: wmbus
+    meter_id: 0x00645747
+    type: apator162
+    key: "00000000000000000000000000000000"
+    sensors:
+      - name: "water kuchnia ZW RSSI"
+        field: "rssi"
+        accuracy_decimals: 0
+        unit_of_measurement: "dBm"
+        device_class: "signal_strength"
+        state_class: "measurement"
+        entity_category: "diagnostic"
+      - name: "water kuchnia ZW"
+        field: "total"
+        accuracy_decimals: 3
+        unit_of_measurement: "m³"
+        device_class: "water"
+        state_class: "total_increasing"
+        icon: "mdi:water"
+
+  - platform: wifi_signal
+    name: "$friendly_name WiFi Signal"
+    update_interval: 15s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 15
+          send_first_at: 15
+    icon: mdi:wifi
+  - platform: uptime
+    name: Uptime Sensor
+    id: uptime_sensor
+    update_interval: 15s
+#    on_raw_value:
+#      then:
+#        - text_sensor.template.publish:
+#            id: uptime_human
+#            state: !lambda |-
+#              int seconds = round(id(uptime_sensor).raw_state);
+#              int days = seconds / (24 * 3600);
+#              seconds = seconds % (24 * 3600);
+#              int hours = seconds / 3600;
+#              seconds = seconds % 3600;
+#              int minutes = seconds /  60;
+#              seconds = seconds % 60;
+#              return (
+#                (days ? to_string(days) + "d " : "") +
+#                (hours ? to_string(hours) + "h " : "") +
+#                (minutes ? to_string(minutes) + "m " : "") +
+#                (to_string(seconds) + "s")
+#              ).c_str();
+
+
+text_sensor:
+#  - platform: template
+#    name: "$friendly_name Uptime"
+#    id: uptime_human
+#    icon: mdi:clock-start
+  - platform: wifi_info
+    ip_address:
+      name: "$friendly_name IP Address"
+    ssid:
+      name: "$friendly_name Connected SSID"
+    bssid:
+      name: "$friendly_name Connected BSSID"
+    mac_address:
+      name: "$friendly_name Mac Wifi Address"
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+
+switch:
+  - platform: restart
+    name: "$friendly_name Restart"
+    entity_category: "diagnostic"
+  - platform: safe_mode
+    name: "$friendly_name Restart (Safe Mode)"
+    entity_category: "diagnostic"
